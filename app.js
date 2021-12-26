@@ -9,9 +9,13 @@ var usersRouter = require("./routes/users");
 
 var app = express();
 
+
+
+
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "jade");
+// app.engine('html',require('ejs').__express);
+app.set("view engine", "ejs");
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -20,13 +24,13 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 // 设置跨域
 app.all("*", (req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Content-Type");
   res.header("Access-Control-Allow-Methods", "*");
-  res.header("Content-Type", "application/json;charset=utf-8");
+  // res.header("Content-Type", "text/html;");
   next();
 });
-mongoose.connect("mongodb://localhost:27017/user");
+
 
 // 登录
 app.use("/login", indexRouter);

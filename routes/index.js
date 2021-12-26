@@ -1,24 +1,28 @@
 var express = require("express");
 var router = express.Router();
 const mongoose = require("mongoose");
-var UserSchema = mongoose.Schema({
-  username: String,
-  year: Number,
-  height: Number,
+let data = []
+var GoodsSchema = mongoose.Schema({
+  name: String,
+  color: String,
 });
-var Users = mongoose.model("Users", UserSchema);
+var Fruit = mongoose.model("fruit", GoodsSchema);
+mongoose.connect("mongodb://127.0.0.1:27017/goods");
+Fruit.find({}, (err, doc) => {
+  if (err) {
+    console.log("err", err);
+  }
+  console.log("doc", doc);
+  data = doc
+});
 
 /* GET home page. */
 router.post("/", function (req, res, next) {
   // res.render('index', { title: 'Express' });
   console.log(req.body);
-  Users.find({}, (err, doc) => {
-    if (err) {
-      console.log("err", err);
-    }
-    console.log("doc", doc);
-  });
-  res.send("hello");
+  res.send(data)
+  
+  
 });
 
 module.exports = router;
